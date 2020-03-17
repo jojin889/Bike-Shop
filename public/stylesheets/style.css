@@ -1,0 +1,152 @@
+
+/* ------ Body ---- */
+
+body {
+    background-color: #ffffff;
+    font-family: 'Darker Grotesque', sans-serif;
+} 
+
+a {
+    color: white
+}
+
+/* ---------- Home page -------------- */
+.jumbotron {
+    background-image: url('/images//bike-background.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 150px;
+  }
+
+.navbar {
+    padding:0px ;
+}
+
+.logo {
+    margin-left: 10px;
+}
+
+.bike-card {
+    margin-bottom: 15px;
+  }
+
+.card-body {
+    padding: 0;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.bike-price {
+    font-weight: bold;
+}
+
+/* ----- Shop page ---------- */
+
+.header-shop {
+    height: 40px;
+    padding-left: 20px;
+}
+
+.icon-basket {
+    margin-right: 5px;
+}
+
+.shop-title {
+    border-top: solid;
+    border-bottom: solid;
+    border-width: thin;
+    border-color: #e9ecef;
+    font-weight: bold;
+    
+}
+
+.shopping-box {
+    background-color: #fcfcfc;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-bottom: solid;
+    border-width: thin;
+    border-color: #e9ecef;
+}
+
+.basket-img {
+    width: 170px;
+}
+
+.total-box {
+    border-bottom: solid;
+    border-width: thin;
+    border-color: #e9ecef;
+    font-weight: bold;
+}
+
+.btn-checkout {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.Logo {
+    width: 50px
+  }
+
+  .formPayement {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center
+  }
+  
+  .StripeElement {
+    box-sizing: border-box;
+    width: 350px;
+    height: 40px;
+
+    padding: 10px 12px;
+  
+    border: 1px solid transparent;
+    border-radius: 4px;
+    background-color: white;
+  
+    box-shadow: 0 1px 3px 0 #e6ebf1;
+    -webkit-transition: box-shadow 150ms ease;
+    transition: box-shadow 150ms ease;
+    margin: 15px;
+  }
+  
+  .StripeElement--focus {
+    box-shadow: 0 1px 3px 0 #cfd7df;
+  }
+  
+  .StripeElement--invalid {
+    border-color: #fa755a;
+  }
+  
+  .StripeElement--webkit-autofill {
+    background-color: #fefde5 !important;
+  }
+
+  .form-row{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .cityInfos{
+    display: flex;
+    flex-direction: row;
+    margin-top: 5px;
+  }
+
+  .btn-checkout {
+    width: 25%;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+
+  .modal-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }

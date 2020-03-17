@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Darker+Grotesque&display=swap" rel="stylesheet">
+    <script src="https://use.fontawesome.com/a7ec7986bf.js"></script>
+    <!-- <script type="text/javascript" src="../public/javascripts/stripe.js"></script> -->
+    <script src="https://js.stripe.com/v3/"></script>
+    <title>BikeShop - Shop</title>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- header -- more on :https://getbootstrap.com/docs/4.0/components/navbar/-->
+    <div class="row">
+
+        <nav class=" header-shop col-12 navbar navbar-light bg-dark">
+                <a class="navbar" href="/shop">
+                    <i class="icon-basket fa fa-shopping-cart" aria-hidden="true"></i>
+                my Basket
+                </a>
+            </nav>
+
+    </div>  
+
+    <!-- breadcrumb bar -- more on https://getbootstrap.com/docs/4.0/components/breadcrumb/ -->
+    <div class="row" style="margin-top: 25px">
+
+        <nav aria-label="breadcrumb" class="col-12">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/">Shop</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Basket</li>
+            </ol>
+          </nav>
+
+    </div>
+
+    <h1>Basket</h1>
+
+    <!-- Bonus Part -- display a Message if there is no article in the basket -->
+    <% if(dataCardBike.length < 1) {%>
+    <!-- If no articles inside the Basket -->
+    <h5 style="    font-style: italic;
+    color: crimson;">No article in the Basket</h5>
+
+    <!-- if there is at least one article to buy  -->
+    <% }else{ %>
+
+    <!-- Shopping title -->
+    <div class="shop-title row">
+            <div class="col-5 col-sm-3">Picture</div>
+            <div class="col-4 d-none d-sm-block">Model</div>
+            <div class="col-3 col-sm-2">Quantity</div>
+            <div class="col-2 col-sm-1">Price</div>
+            <div class="col-1 d-none d-sm-block">Total</div>
+            <div class="col-2 col-sm-1">Suppr</div>
+    </div>
+
+
+
+    <!-- ********   Shopping basket division **********  -->
+
+    <!-- We need to initalize outside the loop to avoid starting again at the value : 0 at every loop tour -->
+    <% var totalBasket = 0 %>
+
+     <!-- We need to loop on our dataBike array on each bike to be able to access the name price and url -->
+    <% for(let i = 0; i<dataCardBike.length; i++){ 
+      
+      var totalBike = 0;
+      totalBike = dataCardBike[i].price * dataCardBike[i].quantity
+      totalBasket = totalBasket + totalBike
+
+      %>
+
+    <div class="shopping-box row">
+
+        <div class="col-5 col-sm-3"><img class="basket-img"  src=<%=dataCardBike[i].url%>></div>
+        <div class="col-4 d-none d-sm-block">
+              <p><%=dataCardBike[i].name%></p>
+        </div>
+        <div class="col-3 col-sm-2">
+            <form action="/update-shop" method="POST">
+              <div class="row">
+                    <div class="col-8">
+                      <input type="text" name="quantity" value=<%=dataCardBike[i].quantity%> class="form-control form-control-sm">
+                      <input type="hidden" name="position" value=<%=i%>>
+                    </div>
+                    <div class="col-4">
+                      <button class="btn btn-outline-info btn-sm"><i class="fa fa-refresh" aria-hidden="true"></i></button>
+                    </div>
+              </div>
+            </form>
+        </div>
+        <div class="col-2 col-sm-1"><%=dataCardBike[i].price%>€</div>
+        <div class="col-1 d-none d-sm-block"><%=totalBike%>€</div>
+
+        <div class="col-2 col-sm-1">
+        <form action="/delete-shop" method="POST">
+          <input type="hidden" name="position" value=<%=i%>>
+          <button class="btn btn-outline-info btn-sm"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+        </form></div>
+
+        
+    </div>
+
+    <%}%>
+
+    
+   
+     <!-- Total -->
+    <div class="total-box row">
+            <div class="col-5 col-sm-10" style="text-align: end;">Total basket:</div>
+            <div class="col-5 col-sm-2"><%=totalBasket%>€</div>
+    </div>
+    
+    <!-- checkout button -->
+    <!-- <div class="row">
+
+        <div class="col-12 text-right">
+           <a href="/checkout"><button type="button" class="btn btn-outline-info btn-sm btn-checkout" name="btn-checkout">Checkout</button></a> 
+        </div>
+
+    </div> -->
+    
+    <!-- <div class="col-12 text-right">
+      <form action="/charge" method="POST">
+      <button class="btn btn-outline-info btn-sm btn-checkout" name="boutton-checkout" value="" id="">Checkout</button></form>
+  </div> -->
+  
+  <div class="col-12 text-right">
+  <button type="button" class="btn btn-outline-info btn-sm btn-checkout" data-toggle="modal" data-target="#exampleModalCenter">
+    Checkout
+  </button>
+</div> 
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header" >
+
+          <!-- <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5> -->
+          <img src="https://pbs.twimg.com/profile_images/918600683674357760/I3p9GKwG_400x400.jpg" alt="" class="Logo">
+          <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button> -->
+        </div>
+        <div class="modal-body">
+
+        <form action="/charge" method="post" id="payment-form">
+          <div class="form-row">
+            <!-- <label for="card-element">
+              Payement
+            </label> -->
+            <div id="card-element">
+              <!-- A Stripe Element will be inserted here. -->
+            </div>
+        
+            <!-- Used to display Element errors. -->
+            <div id="card-errors" role="alert"></div>
+          </div>
+          <div class="modal-body">
+
+            <div class="form-row inline inputBox">
+
+              <div class="col">
+                <label for="lname">Name</label>
+                <input class="form-control" type="text" id="name" name="stripeShippingName" placeholder="Your name.." required>
+              </div>
+                <!-- <label for="name">
+                  Name
+                </label>
+                <input id="name" data-name="nameData" name="stripeShippingName" placeholder="Jenny Rosen" required> -->
+               
+                <!-- <div class="col">
+                    <label for="lname">Email</label>
+                    <input type="text" id="name" name="email" placeholder="Your name.." required>
+                </div> -->
+
+                <!-- <div class="col">
+                  <label for="email">
+                    Email Address
+                  </label>
+                  <input id="email" name="email" type="email" placeholder="jenny.rosen@example.com" required>
+                </div> -->
+                
+                <div class="col">
+                    <label for="lname">Shipping Address</label>
+                    <input class="form-control" type="text" id="name" name="stripeShippingAddressLine1" placeholder="151 rue St Denis" required>
+                </div>
+
+                <!-- <div class="col">
+                  <label for="email">
+                    Shipping Address
+                  </label>
+                  <input id="email" name="stripeShippingAddressLine1" placeholder="151 rue St Denis" required>
+                </div> -->
+                
+                <!-- <div class="col">
+                  <label for="email">
+                    ZipCode Adress
+                  </label>
+                  <input id="email" name="stripeShippingAddressZip" placeholder="75002" required>
+                </div> -->
+                <div class="cityInfos">
+                  <div class="col">
+                      <label for="lname">ZipCode</label>
+                      <input class="form-control" type="text" id="name" name="stripeShippingAddressZip" placeholder="75002" required>
+                  </div>
+
+                  <div class="col">
+                      <label for="lname">City</label>
+                      <input class="form-control" type="text" id="name" name="stripeShippingAddressCity" placeholder="75002" required>
+                  </div>
+              </div>
+
+              </div>
+
+              </div>
+           </div>
+            <div style="align-items: center;display: flex;flex-direction: column;">
+              <button class="btn btn-outline-info btn-sm btn-checkout">Payment</button>
+            </div>   
+            </div>
+          </form>
+
+          </div>
+ </div>
+
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+    <% } %>
+
+</div>
+
+ <!-- scripts -->
+ <script src="/javascripts/stripe.js"></script>
+ <script
+ src="http://code.jquery.com/jquery-3.4.1.min.js"
+ integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+ crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</body>
+</html>

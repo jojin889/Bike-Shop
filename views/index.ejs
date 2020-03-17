@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Darker+Grotesque&display=swap" rel="stylesheet">
+    <title>BikeShop - Home</title>
+</head>
+
+<body>
+
+<div class="container">
+
+      <!-- HEADER -->
+      <div class="row">
+
+          <nav class=" header col-12 navbar navbar-light bg-dark">
+                  <a class="navbar" href="/">
+                  <img src="/images/bike-logo.svg" width="50" height="50" class="logo" alt="">
+                  The Bike Shop Experience
+                  </a>
+              </nav>
+
+      </div>  
+
+  
+
+      <!-- JUMBOTRON -->
+      <div class="row">
+
+          <div class="col-12 jumbotron jumbotron-fluid">
+              <div class="container">
+              </div>
+          </div>
+
+      </div>
+
+      <!-- BIKES SECTION -->
+      <div class="row">
+
+        <!-- We need to loop on our dataBike array on each bike to be able to access the name price and url 
+              More infos about the card : https://getbootstrap.com/docs/4.0/components/card/
+        -->
+        <% for(let i = 0; i<dataBike.length; i++){ %>
+
+        <div class="card col-xs-12 col-sm-6 col-md-4 bike-card" >
+          <img src=<%= dataBike[i].url%> class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title"><%= dataBike[i].name%></h5>
+            <span class="bike-price"><%= dataBike[i].price%>€</span>
+
+            <form action="/shop" method="POST">
+              <input type="hidden" name="bikeNameFromFront" value=<%= dataBike[i].name%>>
+              <input type="hidden" name="bikePriceFromFront" value=<%= dataBike[i].price%>>
+              <input type="hidden" name="bikeImageFromFront" value=<%= dataBike[i].url%>>
+              <input type="hidden" name="bikeQuantityFromFront" value=1>
+              <button class="btn btn-outline-info btn-sm">Buy</button>
+            </form>
+           
+          </div>
+        </div>
+
+        <% }%>
+
+      </div>
+
+    </div>   
+ 
+<!-- Scripts ------------------------------------------- -->
+<script src="https://js.stripe.com/v3/"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>
